@@ -27,7 +27,13 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
-  console.log("Server is running on port " + PORT);
-  connectDB();
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("Server is running on port " + PORT);
+    });
+  })
+  .catch((error) => {
+    console.log("Failed to connect to the database:", error);
+    process.exit(1);
+  });
