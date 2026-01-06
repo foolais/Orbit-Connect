@@ -8,12 +8,6 @@ export const arcjectProtection = async (req, res, next) => {
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
         return res.status(429).json({ message: "Too Many Requests" });
-      } else if (decision.reason.isBot()) {
-        return res.status(403).json({ message: "Forbidden: Bot Detected" });
-      } else {
-        return res
-          .status(403)
-          .json({ message: "Access denied by security policy" });
       }
     }
 
