@@ -2,3 +2,39 @@
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, dim;
 }
+
+.auth-card {
+  @apply w-xl md:w-3xl lg:w-5xl xl:w-6xl bg-slate-900 flex items-center justify-center p-4 rounded-lg;
+}
+
+.auth-container {
+  @apply flex flex-col md:flex-row md:min-h-[200] h-max w-full;
+}
+
+.auth-form-container {
+  @apply md:w-1/2 w-full md:border-r border-slate-600/30;
+}
+
+.auth-form-content {
+  @apply p-8 h-full flex flex-col items-center justify-center;
+}
+
+.auth-form {
+  @apply space-y-4 md:w-full lg:w-3/4 grid;
+}
+
+.auth-heading {
+  @apply text-2xl text-primary font-bold mb-2;
+}
+
+.auth-input-icon {
+  @apply text-slate-400 size-5;
+}
+
+.auth-input {
+  @apply input w-full bg-slate-900;
+}
+
+.auth-image-container {
+  @apply hidden md:w-1/2 md:flex items-center justify-center p-6 bg-linear-to-bl from-slate-800/20 to-transparent;
+}
