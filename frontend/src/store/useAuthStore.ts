@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { SignUpForm, User } from "../lib/type";
+import type { LoginForm, SignUpForm, User } from "../lib/type";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "../lib/utils";
@@ -10,6 +10,9 @@ interface AuthState {
   checkAuth: () => void;
   isSigningUp: boolean;
   signUp: (data: SignUpForm) => void;
+  isLoggingIn: boolean;
+  login: (data: LoginForm) => void;
+  logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -38,6 +41,31 @@ export const useAuthStore = create<AuthState>((set) => ({
       toast.error(getErrorMessage(error));
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+  isLoggingIn: false,
+  login: async (data: LoginForm) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", data);
+      set({ authUser: res.data });
+
+      toast.success("Logged in successfully");
+    } catch (error) {
+      console.log("Error in Login", error);
+      toast.error(getErrorMessage(error));
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+  logout: async () => {
+    try {
+      await axiosInstance.post("/auth/logout");
+      set({ authUser: null });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.log("Error in Logout", error);
+      toast.error(getErrorMessage(error));
     }
   },
 }));
