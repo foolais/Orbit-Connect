@@ -18,8 +18,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="auth-card">
-      <div className="auth-container">
+    <div className="main-card">
+      <div className="main-container auth-container">
         {/* LEFT SIDE */}
         <div className="auth-form-container">
           <div className="auth-form-content">

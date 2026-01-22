@@ -3,12 +3,16 @@
   themes: light --default, dark --prefersdark, dim;
 }
 
-.auth-card {
+.main-card {
   @apply w-xl md:w-3xl lg:w-5xl xl:w-6xl bg-slate-900 flex items-center justify-center p-4 rounded-lg;
 }
 
+.main-container {
+  @apply flex flex-col md:flex-row md:min-h-[200] h-162.5 w-full;
+}
+
 .auth-container {
-  @apply flex flex-col md:flex-row md:min-h-[200] h-max w-full;
+  @apply items-center justify-center;
 }
 
 .auth-form-container {
