@@ -6,8 +6,8 @@ import { axiosInstance } from "../lib/axios";
 
 interface ChatState {
   allContact: Contact[];
-  chats: Messages[];
-  messages: string[];
+  chats: Contact[];
+  messages: Messages[];
   activeTab: ITab;
   selectedUser: string | null;
   isUsersLoading: boolean;
@@ -33,7 +33,7 @@ export const useChatStore = create<ChatState>((set) => ({
   getAllContacts: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get("/messages/contats");
+      const res = await axiosInstance.get("/message/contacts");
       set({ allContact: res.data });
     } catch (error) {
       console.log("Error in Get All Contats", error);
@@ -45,7 +45,7 @@ export const useChatStore = create<ChatState>((set) => ({
   getMyChatPartners: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get("/messages/chats");
+      const res = await axiosInstance.get("/message/chats");
       set({ chats: res.data });
     } catch (error) {
       console.log("Error in Get Chats", error);

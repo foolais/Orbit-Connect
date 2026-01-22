@@ -13,6 +13,7 @@ interface AuthState {
   isLoggingIn: boolean;
   login: (data: LoginForm) => void;
   logout: () => void;
+  updateProfile: (data: { profilePic: string }) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -66,6 +67,18 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.log("Error in Logout", error);
       toast.error(getErrorMessage(error));
+    }
+  },
+  updateProfile: async (data) => {
+    try {
+      console.log({ data });
+      const res = await axiosInstance.put("/auth/update-profile", data);
+      set({ authUser: res.data });
+      console.log({ data: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      console.log("Error in Update profile", error);
+      toast.error("Failed to update profile");
     }
   },
 }));

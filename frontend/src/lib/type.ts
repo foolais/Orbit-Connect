@@ -20,6 +20,7 @@ export interface Contact extends User {
 }
 
 export interface Messages {
+  _id: string;
   senderId: string;
   receiverId: string;
   text: string;

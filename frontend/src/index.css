@@ -42,3 +42,35 @@
 .auth-image-container {
   @apply hidden md:w-1/2 md:flex items-center justify-center p-6 bg-linear-to-bl from-slate-800/20 to-transparent;
 }
+
+.tab-base {
+  @apply tab btn btn-sm btn-primary;
+}
+
+.tab-active {
+  @apply text-neutral;
+}
+
+.tab-inactive {
+  @apply btn-ghost text-primary hover:text-neutral;
+}
+
+.list-flex {
+  @apply flex flex-col gap-3;
+}
+
+.list-container {
+  @apply bg-cyan-500/10 p-2 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors duration-300;
+}
+
+.list-card {
+  @apply flex items-center gap-3;
+}
+
+.list-image-container {
+  @apply size-12 rounded-full;
+}
+
+.list-name {
+  @apply text-slate-200 font-semibold max-w-[45] truncate;
+}
