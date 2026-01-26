@@ -13,7 +13,7 @@ const ChatContainer = () => {
   const { authUser } = useAuthStore();
 
   useEffect(() => {
-    getMessagesByUserId(selectedUser?._id || "");
+    if (selectedUser?._id) getMessagesByUserId(selectedUser?._id);
   }, [getMessagesByUserId, selectedUser]);
 
   const isMessagesByUser = (message: Messages) => {
