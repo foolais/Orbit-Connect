@@ -17,7 +17,7 @@ const ContactList = () => {
       {allContact.map((contact) => (
         <div
           key={contact._id}
-          onClick={() => setSelectedUser(contact._id)}
+          onClick={() => setSelectedUser(contact)}
           className="list-container"
         >
           <div className="list-card">

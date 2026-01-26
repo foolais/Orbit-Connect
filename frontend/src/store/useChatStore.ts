@@ -9,13 +9,14 @@ interface ChatState {
   chats: Contact[];
   messages: Messages[];
   activeTab: ITab;
-  selectedUser: string | null;
+  selectedUser: Contact | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   setActiveTab: (tab: ITab) => void;
-  setSelectedUser: (selectedUser: string) => void;
+  setSelectedUser: (selectedUser: Contact | null) => void;
   getAllContacts: () => void;
   getMyChatPartners: () => void;
+  getMessagesByUserId: (userId: string) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -52,6 +53,19 @@ export const useChatStore = create<ChatState>((set) => ({
       toast.error(getErrorMessage(error));
     } finally {
       set({ isUsersLoading: false });
+    }
+  },
+  getMessagesByUserId: async (userId: string) => {
+    set({ isMessagesLoading: true });
+    try {
+      const res = await axiosInstance.get(`/message/${userId}`);
+      set({ messages: res.data });
+      console.log({ data: res.data });
+    } catch (error) {
+      console.log("Error in Get Messages", error);
+      toast.error(getErrorMessage(error));
+    } finally {
+      set({ isMessagesLoading: false });
     }
   },
 }));

@@ -19,7 +19,7 @@ const ChatsList = () => {
       {chats.map((chat) => (
         <div
           key={chat._id}
-          onClick={() => setSelectedUser(chat._id)}
+          onClick={() => setSelectedUser(chat)}
           className="list-container"
         >
           <div className="list-card">

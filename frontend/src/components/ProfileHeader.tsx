@@ -35,7 +35,7 @@ const ProfileHeader = () => {
   };
 
   return (
-    <div className="w-full flex flex-row items-center justify-between gap-4 p-4 border-b border-slate-700/50c">
+    <div className="w-full flex flex-row items-center justify-between gap-4 p-4 border-b border-slate-700/50">
       <div className="flex items-center justify-center">
         <div className="avatar avatar-online px-1">
           <button

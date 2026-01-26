@@ -3,6 +3,7 @@ export interface User {
   fullName: string;
   profilePic?: string;
   timestamps: string;
+  _id: string;
 }
 export type SignUpForm = {
   fullName: string;
@@ -25,7 +26,8 @@ export interface Messages {
   receiverId: string;
   text: string;
   image: string;
-  timestamps: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type ITab = "chats" | "contacts";
