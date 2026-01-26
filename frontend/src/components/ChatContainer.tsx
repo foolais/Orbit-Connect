@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import ChatHeader from "./ChatHeader";
@@ -11,10 +11,16 @@ const ChatContainer = () => {
   const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } =
     useChatStore();
   const { authUser } = useAuthStore();
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (selectedUser?._id) getMessagesByUserId(selectedUser?._id);
   }, [getMessagesByUserId, selectedUser]);
+
+  useEffect(() => {
+    if (messageEndRef.current)
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const isMessagesByUser = (message: Messages) => {
     return message.senderId === authUser?._id;
@@ -42,6 +48,11 @@ const ChatContainer = () => {
                 isMessagesByUser(message) ? "chat-end" : "chat-start"
               }`}
             >
+              <div className="chat-header mb-1">
+                <time className="text-xs opacity-75 flex items-center gap-1">
+                  {new Date(message.createdAt).toLocaleTimeString().slice(0, 5)}
+                </time>
+              </div>
               <div
                 className={`chat-bubble relative ${
                   isMessagesByUser(message)
@@ -61,17 +72,11 @@ const ChatContainer = () => {
                     {message.text}
                   </p>
                 )}
-                <p className="text-xs mt-1 opacity-75 flex items-center gap-1">
-                  <time>
-                    {new Date(message.createdAt)
-                      .toLocaleTimeString()
-                      .slice(0, 5)}
-                  </time>
-                </p>
               </div>
             </div>
           ))
         )}
+        <div ref={messageEndRef} />
       </div>
       <MessageInput />
     </>

@@ -30,4 +30,9 @@ export interface Messages {
   updatedAt: Date;
 }
 
+export interface MessageData {
+  text: string;
+  image: string;
+}
+
 export type ITab = "chats" | "contacts";
