@@ -16,10 +16,6 @@ export type LoginForm = {
   password: string;
 };
 
-export interface Contact extends User {
-  _id: string;
-}
-
 export interface Messages {
   _id: string;
   senderId: string;
@@ -36,3 +32,12 @@ export interface MessageData {
 }
 
 export type ITab = "chats" | "contacts";
+
+export interface Contact extends User {
+  _id: string;
+}
+
+export interface ChatList extends User {
+  _id: string;
+  lastMessage: Messages;
+}

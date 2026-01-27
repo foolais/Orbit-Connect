@@ -3,6 +3,7 @@ import type { LoginForm, SignUpForm, User } from "../lib/type";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "../lib/utils";
+import { useChatStore } from "./useChatStore";
 
 interface AuthState {
   authUser: User | null;
@@ -63,6 +64,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await axiosInstance.post("/auth/logout");
       set({ authUser: null });
+      const { setSelectedUser } = useChatStore.getState();
+      setSelectedUser(null);
       toast.success("Logged out successfully");
     } catch (error) {
       console.log("Error in Logout", error);

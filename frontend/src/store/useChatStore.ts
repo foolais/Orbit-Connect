@@ -1,5 +1,11 @@
 import { create } from "zustand";
-import type { Contact, ITab, MessageData, Messages } from "../lib/type";
+import type {
+  ChatList,
+  Contact,
+  ITab,
+  MessageData,
+  Messages,
+} from "../lib/type";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "../lib/utils";
 import { axiosInstance } from "../lib/axios";
@@ -8,7 +14,7 @@ import { pusher } from "../lib/pusher";
 
 interface ChatState {
   allContact: Contact[];
-  chats: Contact[];
+  chats: ChatList[];
   messages: Messages[];
   activeTab: ITab;
   selectedUser: Contact | null;

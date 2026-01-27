@@ -56,11 +56,11 @@
 }
 
 .list-flex {
-  @apply flex flex-col gap-3;
+  @apply flex flex-col;
 }
 
 .list-container {
-  @apply bg-cyan-500/10 p-2 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors duration-300;
+  @apply border border-cyan-500/10 p-2 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors duration-300;
 }
 
 .list-card {

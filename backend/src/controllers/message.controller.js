@@ -90,23 +90,38 @@ export const getChatPartners = async (req, res) => {
 
     const messages = await Message.find({
       $or: [{ senderId: loggedInUserId }, { receiverId: loggedInUserId }],
-    });
+    }).sort({ createdAt: -1 });
 
-    const chatPartnerIds = [
-      ...new Set(
-        messages.map((msg) =>
-          msg.senderId.toString() === loggedInUserId.toString()
-            ? msg.receiverId.toString()
-            : msg.senderId.toString()
-        )
-      ),
-    ];
+    const lastMessageMap = new Map();
+
+    for (const msg of messages) {
+      const partnerId =
+        msg.senderId.toString() === loggedInUserId.toString()
+          ? msg.receiverId.toString()
+          : msg.senderId.toString();
+
+      if (!lastMessageMap.has(partnerId)) {
+        lastMessageMap.set(partnerId, msg);
+      }
+    }
+
+    const chatPartnerIds = Array.from(lastMessageMap.keys());
 
     const chatPartners = await User.find({
       _id: { $in: chatPartnerIds },
     }).select("-password");
 
-    res.status(200).json(chatPartners);
+    const result = chatPartners.map((user) => ({
+      ...user.toObject(),
+      lastMessage: lastMessageMap.get(user._id.toString()),
+    }));
+
+    result.sort(
+      (a, b) =>
+        new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt)
+    );
+
+    res.status(200).json(result);
   } catch (error) {
     console.log("Error in getChatPartners controller:", error);
     res.status(500).json({ message: "Internal server error" });
