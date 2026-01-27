@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import pusherRoutes from "./routes/pusher.route.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 import cookieParser from "cookie-parser";
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/pusher", pusherRoutes);
 
 // for deployment
 if (ENV.NODE_ENV === "production") {
@@ -30,7 +32,11 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
-  console.log("Server is running on port " + PORT);
+if (ENV.NODE_ENV === "development") {
+  app.listen(PORT, () => {
+    console.log("Server is running on port " + PORT);
+    connectDB();
+  });
+} else {
   connectDB();
-});
+}

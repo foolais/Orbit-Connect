@@ -8,14 +8,29 @@ import MessageInput from "./MessageInput";
 import { LoaderIcon } from "lucide-react";
 
 const ChatContainer = () => {
-  const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } =
-    useChatStore();
+  const {
+    selectedUser,
+    getMessagesByUserId,
+    messages,
+    isMessagesLoading,
+    subscribeToChat,
+    unsubscribeToChat,
+  } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (selectedUser?._id) getMessagesByUserId(selectedUser?._id);
   }, [getMessagesByUserId, selectedUser]);
+
+  useEffect(() => {
+    if (!selectedUser?._id) return;
+    subscribeToChat();
+
+    return () => {
+      unsubscribeToChat();
+    };
+  }, [selectedUser?._id, subscribeToChat, unsubscribeToChat]);
 
   useEffect(() => {
     if (messageEndRef.current)

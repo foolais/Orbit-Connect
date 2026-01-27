@@ -14,8 +14,6 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
-  console.log({ authUser });
-
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-br from-slate-950 via-slate-900 to-slate-950" />

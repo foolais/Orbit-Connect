@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { getErrorMessage } from "../lib/utils";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
+import { pusher } from "../lib/pusher";
 
 interface ChatState {
   allContact: Contact[];
@@ -20,6 +21,8 @@ interface ChatState {
   getMyChatPartners: () => void;
   getMessagesByUserId: (userId: string) => void;
   sendMessages: (messageData: MessageData) => void;
+  subscribeToChat: () => void;
+  unsubscribeToChat: () => void;
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -64,7 +67,6 @@ export const useChatStore = create<ChatState>((set, get) => ({
     try {
       const res = await axiosInstance.get(`/message/${userId}`);
       set({ messages: res.data });
-      console.log({ data: res.data });
     } catch (error) {
       console.log("Error in Get Messages", error);
       toast.error(getErrorMessage(error));
@@ -111,5 +113,35 @@ export const useChatStore = create<ChatState>((set, get) => ({
     } finally {
       set({ isSendingMessage: false });
     }
+  },
+  subscribeToChat: () => {
+    const { authUser } = useAuthStore.getState();
+    if (!authUser?._id) return;
+
+    const channelName = `private-chat-${authUser._id}`;
+
+    pusher.unsubscribe(channelName);
+
+    const channel = pusher.subscribe(channelName);
+
+    channel.unbind("new-message");
+
+    channel.bind("new-message", (data: Messages) => {
+      if (data.senderId === authUser?._id) return;
+      set((state) => ({ messages: [...state.messages, data] }));
+    });
+  },
+  unsubscribeToChat: () => {
+    const { authUser } = useAuthStore.getState();
+    if (!authUser?._id) return;
+
+    const channelName = `private-chat-${authUser._id}`;
+
+    pusher.unsubscribe(channelName);
+
+    const channel = pusher.channel(channelName);
+    channel?.unbind("new-message");
+
+    pusher.unsubscribe(channelName);
   },
 }));

@@ -1,4 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
+import { pusher } from "../lib/pusher.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
@@ -69,6 +70,12 @@ export const sendMessage = async (req, res) => {
     });
 
     await newMessage.save();
+
+    await pusher.trigger(
+      `private-chat-${receiverId}`,
+      "new-message",
+      newMessage
+    );
 
     res.status(201).json(newMessage);
   } catch (error) {
