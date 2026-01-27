@@ -72,5 +72,5 @@
 }
 
 .list-name {
-  @apply text-slate-200 font-semibold max-w-[45] truncate;
+  @apply text-slate-200 font-semibold max-w-11.25 truncate;
 }

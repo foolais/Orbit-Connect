@@ -28,7 +28,7 @@ const ChatHeader = () => {
           </div>
         </div>
         <div className="flex gap-1 flex-col ml-3">
-          <h3 className="text-slate-200 font-semibold max-w-[45] truncate">
+          <h3 className="text-slate-200 font-semibold max-w-11.25 truncate">
             {selectedUser?.fullName}
           </h3>
           <span className="text-xs text-slate-400">Online</span>
