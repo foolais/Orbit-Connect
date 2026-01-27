@@ -63,7 +63,7 @@ const ProfileHeader = () => {
           />
         </div>
         <div className="flex gap-1 flex-col ml-3">
-          <h3 className="text-slate-200 font-semibold max-w-11.25 truncate">
+          <h3 className="text-slate-200 font-semibold max-w-36 truncate">
             {authUser?.fullName}
           </h3>
           <span className="text-xs text-slate-400">Online</span>
