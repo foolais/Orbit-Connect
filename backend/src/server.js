@@ -10,8 +10,6 @@ import { ENV } from "./lib/env.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const _dirname = path.resolve();
-
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json({ limit: "5mb" }));
@@ -23,20 +21,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/pusher", pusherRoutes);
 
-// for deployment
-if (ENV.NODE_ENV === "production") {
-  app.use(express.static(path.join(_dirname, "../frontend/dist")));
+connectDB();
 
-  app.get("*all", (_, res) => {
-    res.sendFile(path.join(_dirname, "../frontend/dist/index.html"));
-  });
-}
-
-if (ENV.NODE_ENV === "development") {
-  app.listen(PORT, () => {
-    console.log("Server is running on port " + PORT);
-    connectDB();
-  });
-} else {
-  connectDB();
-}
+export default app;
